@@ -98,6 +98,8 @@
       -webkit-backdrop-filter: blur(20px);
       z-index: 100;
     }
+    .nav-brand { display: flex; align-items: center; gap: 10px; }
+    .nav-logo-img { width: 32px; height: 32px; border-radius: 8px; object-fit: cover; filter: drop-shadow(0 0 6px rgba(0,232,255,0.3)); }
     .nav-logo {
       font-family: var(--font-display);
       font-weight: 700; font-size: 16px;
@@ -243,7 +245,7 @@
   <div class="nebula-bg"></div>
   <div class="wrap">
     <nav>
-      <span class="nav-logo">MindForge</span>
+      <div class="nav-brand"><img src="logo.png" alt="MindForge" class="nav-logo-img" /><span class="nav-logo">MindForge</span></div>
       <span class="nav-tag">Research Reference</span>
     </nav>
 
