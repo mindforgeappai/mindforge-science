@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Science Behind MindForge</title>
+  <meta name="description" content="Every game in MindForge is built on published cognitive science research. Here's exactly what the studies say." />
+  <meta property="og:title" content="The Science Behind MindForge" />
+  <meta property="og:description" content="Real research. Real cognitive training. See the studies." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:            #05060E;
+      --bg-mid:        #080B14;
+      --surface:       #0C101B;
+      --surface-2:     #111626;
+      --border:        rgba(120,160,255,0.08);
+      --border-bright: rgba(120,160,255,0.18);
+      --cyan:   #00E8FF;
+      --blue:   #4A8CFF;
+      --violet: #9B5FFF;
+      --pink:   #FF4FD8;
+      --orange: #FF8C3A;
+      --nebula: #3BFFC8;
+      --text:       #DDE4F5;
+      --text-muted: #7A849E;
+      --text-dim:   #3D4460;
+      --link:       #7EC8FF;
+      --font-display: 'Syne', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+      --font-mono:    'DM Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    .nebula-bg {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0; overflow: hidden;
+    }
+    .nebula-bg::before {
+      content: '';
+      position: absolute;
+      top: -20%; right: -15%;
+      width: 70vw; height: 70vw;
+      max-width: 600px; max-height: 600px;
+      background: radial-gradient(ellipse at 60% 40%,
+        rgba(0,232,255,0.055) 0%,
+        rgba(74,140,255,0.04) 35%,
+        rgba(155,95,255,0.025) 60%,
+        transparent 75%);
+      border-radius: 50%;
+      animation: nebulaShift 18s ease-in-out infinite alternate;
+    }
+    .nebula-bg::after {
+      content: '';
+      position: absolute;
+      bottom: 10%; left: -10%;
+      width: 50vw; height: 50vw;
+      max-width: 400px; max-height: 400px;
+      background: radial-gradient(ellipse,
+        rgba(155,95,255,0.04) 0%,
+        rgba(255,79,216,0.025) 45%,
+        transparent 70%);
+      border-radius: 50%;
+      animation: nebulaShift 22s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes nebulaShift {
+      0%   { transform: translate(0,0) scale(1); }
+      100% { transform: translate(3%,4%) scale(1.06); }
+    }
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.025; pointer-events: none; z-index: 999;
+    }
+    .wrap { position: relative; z-index: 1; }
+    .container { max-width: 680px; margin: 0 auto; padding: 0 22px; }
+
+    nav {
+      padding: 18px 22px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0;
+      background: rgba(5,6,14,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 800; font-size: 16px;
+      letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+      background: linear-gradient(90deg, var(--cyan), var(--violet));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .nav-tag { font-family: var(--font-mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .hero { padding: 88px 0 60px; }
+    .hero-eyebrow {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--nebula); margin-bottom: 22px;
+      opacity: 0; animation: fadeUp 0.55s ease forwards 0.1s;
+    }
+    .hero-title {
+      font-family: var(--font-display); font-size: clamp(38px, 9vw, 58px);
+      font-weight: 800; line-height: 1.02; color: var(--text); margin-bottom: 30px;
+      opacity: 0; animation: fadeUp 0.55s ease forwards 0.2s;
+    }
+    .gradient-word {
+      background: linear-gradient(100deg, var(--cyan) 0%, var(--blue) 35%, var(--violet) 65%, var(--pink) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-intro {
+      font-size: 16px; font-weight: 300; line-height: 1.85;
+      color: var(--text-muted); max-width: 540px;
+      opacity: 0; animation: fadeUp 0.55s ease forwards 0.32s;
+    }
+    .hero-intro strong { color: var(--text); font-weight: 500; }
+    .hero-visual { margin-top: 44px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.44s; }
+    .brain-card {
+      background: var(--surface); border: 1px solid var(--border-bright);
+      border-radius: 16px; padding: 28px 30px;
+      display: flex; align-items: center; gap: 20px;
+      position: relative; overflow: hidden;
+    }
+    .brain-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,232,255,0.04) 0%, rgba(155,95,255,0.04) 50%, rgba(255,79,216,0.03) 100%);
+      pointer-events: none;
+    }
+    .brain-icon { font-size: 44px; flex-shrink: 0; filter: drop-shadow(0 0 14px rgba(0,232,255,0.35)); }
+    .brain-card-text h3 { font-family: var(--font-display); font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+    .brain-card-text p { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+
+    .divider { height: 1px; background: linear-gradient(to right, transparent, var(--border-bright), transparent); margin: 52px 0; }
+    .section-label {
+      font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--text-dim); margin-bottom: 32px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .games { display: flex; flex-direction: column; gap: 10px; }
+    .game-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      opacity: 0; transform: translateY(18px);
+      transition: border-color 0.3s ease;
+    }
+    .game-card.visible { opacity: 1; transform: translateY(0); transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s ease; }
+    .game-card:hover { border-color: var(--border-bright); }
+    .game-card-inner { padding: 26px 26px 24px; }
+    .game-top { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
+    .game-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 19px; flex-shrink: 0; }
+    .game-meta { flex: 1; }
+    .game-number { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; color: var(--text-dim); margin-bottom: 3px; text-transform: uppercase; }
+    .game-title { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--text); line-height: 1.15; }
+    .game-what { font-size: 14px; font-weight: 300; color: var(--text-muted); line-height: 1.78; margin-bottom: 18px; }
+    .game-what strong { color: var(--text); font-weight: 500; }
+    .finding {
+      background: var(--surface-2); border: 1px solid var(--border); border-left: 2px solid;
+      border-radius: 0 8px 8px 0; padding: 14px 16px; margin-bottom: 18px;
+    }
+    .finding-label { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 6px; opacity: 0.9; }
+    .finding-text { font-size: 13px; font-style: italic; color: var(--text-muted); line-height: 1.68; }
+    .finding-text strong { color: var(--text); font-style: normal; font-weight: 500; }
+    .study-links { display: flex; flex-direction: column; gap: 6px; }
+    .study-link {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 9px 11px; background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border); border-radius: 7px;
+      text-decoration: none; transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .study-link:hover { background: rgba(255,255,255,0.045); border-color: var(--border-bright); }
+    .study-link-icon { font-size: 12px; flex-shrink: 0; margin-top: 1px; }
+    .study-link-content { flex: 1; min-width: 0; }
+    .study-link-title { font-family: var(--font-mono); font-size: 11px; color: var(--link); line-height: 1.45; }
+    .study-link-meta { font-family: var(--font-mono); font-size: 9px; color: var(--text-dim); margin-top: 2px; }
+
+    .g1 .game-icon { background: rgba(0,232,255,0.1); }
+    .g1 .finding   { border-left-color: var(--cyan); }
+    .g1 .finding-label { color: var(--cyan); }
+    .g2 .game-icon { background: rgba(155,95,255,0.1); }
+    .g2 .finding   { border-left-color: var(--violet); }
+    .g2 .finding-label { color: var(--violet); }
+    .g3 .game-icon { background: rgba(255,79,216,0.1); }
+    .g3 .finding   { border-left-color: var(--pink); }
+    .g3 .finding-label { color: var(--pink); }
+    .g4 .game-icon { background: rgba(255,140,58,0.1); }
+    .g4 .finding   { border-left-color: var(--orange); }
+    .g4 .finding-label { color: var(--orange); }
+
+    .disclaimer {
+      background: rgba(155,95,255,0.05); border: 1px solid rgba(155,95,255,0.15);
+      border-radius: 10px; padding: 18px 20px; margin-top: 36px;
+    }
+    .disclaimer p { font-size: 12px; color: var(--text-muted); line-height: 1.7; }
+    .disclaimer strong { color: var(--violet); font-weight: 500; }
+
+    .ref-section { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 60px; }
+    .ref-header { padding: 18px 22px; border-bottom: 1px solid var(--border); background: linear-gradient(to right, rgba(0,232,255,0.04), rgba(155,95,255,0.04)); }
+    .ref-header-title { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--text); }
+    .ref-header-sub { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); margin-top: 3px; }
+    .ref-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 22px; border-bottom: 1px solid var(--border); text-decoration: none; transition: background 0.2s ease; }
+    .ref-row:last-child { border-bottom: none; }
+    .ref-row:hover { background: var(--surface-2); }
+    .ref-num { font-family: var(--font-mono); font-size: 9px; color: var(--text-dim); min-width: 20px; margin-top: 3px; }
+    .ref-content { flex: 1; min-width: 0; }
+    .ref-title { font-size: 13px; color: var(--link); line-height: 1.5; }
+    .ref-authors { font-family: var(--font-mono); font-size: 9px; color: var(--text-dim); margin-top: 3px; }
+    .ref-arrow { font-size: 11px; color: var(--text-dim); margin-top: 3px; flex-shrink: 0; }
+
+    footer { border-top: 1px solid var(--border); padding: 44px 0; text-align: center; }
+    .footer-logo {
+      font-family: var(--font-display); font-weight: 800; font-size: 24px; letter-spacing: 0.08em;
+      background: linear-gradient(100deg, var(--cyan), var(--violet), var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px;
+    }
+    .footer-note { font-family: var(--font-mono); font-size: 10px; color: var(--text-dim); line-height: 1.9; }
+    .footer-dot { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: linear-gradient(90deg, var(--cyan), var(--violet)); margin: 0 8px; vertical-align: middle; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 480px) {
+      .game-card-inner { padding: 20px; }
+      .brain-card { flex-direction: column; text-align: center; }
+      .ref-row { padding: 12px 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="nebula-bg"></div>
+  <div class="wrap">
+    <nav>
+      <span class="nav-logo">MindForge</span>
+      <span class="nav-tag">Research Reference</span>
+    </nav>
+
+    <div class="container">
+      <section class="hero">
+        <p class="hero-eyebrow">Peer-reviewed · Publicly accessible · No hype</p>
+        <h1 class="hero-title">The science<br /><span class="gradient-word">actually</span> behind it.</h1>
+        <p class="hero-intro">Every game in MindForge is built on <strong>published, peer-reviewed research</strong>. Not "inspired by science." Not vague claims. Below is the specific work each game is based on — with direct links to the original studies so you can read them yourself.</p>
+        <div class="hero-visual">
+          <div class="brain-card">
+            <div class="brain-icon">🧬</div>
+            <div class="brain-card-text">
+              <h3>Four games. Four memory systems.</h3>
+              <p>Each module targets a distinct, trainable cognitive domain backed by its own body of peer-reviewed research — working memory, visuospatial memory, long-term retention, and active recall.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="container">
+      <p class="section-label">The research by game</p>
+      <div class="games">
+
+        <article class="game-card g1">
+          <div class="game-card-inner">
+            <div class="game-top">
+              <div class="game-icon">🧠</div>
+              <div class="game-meta">
+                <p class="game-number">Game 01</p>
+                <h2 class="game-title">Dual N-Back</h2>
+              </div>
+            </div>
+            <p class="game-what">You track two streams of information simultaneously — visual positions and spoken letters — and identify matches from N steps back. It's demanding by design: <strong>the difficulty is what makes it work.</strong></p>
+            <div class="finding">
+              <p class="finding-label">Key research finding</p>
+              <p class="finding-text">Jaeggi et al. (2008) showed that dual n-back training produced <strong>dose-dependent improvements in fluid intelligence</strong> after as few as 8 sessions. This was landmark: fluid intelligence was previously considered fixed.</p>
+            </div>
+            <div class="study-links">
+              <a class="study-link" href="https://pubmed.ncbi.nlm.nih.gov/18443283/" target="_blank" rel="noopener">
+                <span class="study-link-icon">📄</span>
+                <div class="study-link-content">
+                  <div class="study-link-title">Improving fluid intelligence with training on working memory</div>
+                  <div class="study-link-meta">Jaeggi et al. (2008) — PNAS · PubMed</div>
+                </div>
+              </a>
+              <a class="study-link" href="https://www.pnas.org/doi/10.1073/pnas.0801268105" target="_blank" rel="noopener">
+                <span class="study-link-icon">🔗</span>
+                <div class="study-link-content">
+                  <div class="study-link-title">Full text — Proceedings of the National Academy of Sciences</div>
+                  <div class="study-link-meta">DOI: 10.1073/pnas.0801268105</div>
+                </div>
+              </a>
+              <a class="study-link" href="https://scottbarrykaufman.com/wp-content/uploads/2014/08/au-et-al2014_nback-training-gf-meta-analysis.pdf" target="_blank" rel="noopener">
+                <span class="study-link-icon">📊</span>
+                <div class="study-link-content">
+                  <div class="study-link-title">Meta-analysis of all n-back training studies</div>
+                  <div class="study-link-meta">Au et al. (2015) — Psychonomic Bulletin & Review</div>
+                </div>
+              </a>
+              <a class="study-link" href="https://www.nature.com/articles/s41598-021-82663-w" target="_blank" rel="noopener">
+                <span class="study-link-icon">🔬</span>
+                <div class="study-link-content">
+                  <div class="study-link-title">Dual n-back shows superior transfer vs. Memory Palace training</div>
+                  <div class="study-link-meta">Scientific Reports — Nature, 2021</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="game-card g2">
+          <div class="game-card-inner">
+            <div class="game-top">
+              <div class="game-icon">🔮</div>
+              <div class="game-meta">
+                <p class="game-number">Game 02</p>
+                <h2 class="game-title">Pattern Memory</h2>
+              </div>
+            </div>
+            <p class="game-what">A sequence of grid positions lights up. You reproduce it. The sequences get longer. This targets a <strong>separate memory system</strong> from Dual N-Back — visuospatial working memory — governing navigation, spatial reasoning, and object-location recall.</p>
+            <div class="finding">
+              <p class="finding-label">Key research finding</p>
+              <p class="finding-text">Computerized visuospatial working memory training improved sequence learning and <strong>transferred to untrained cognitive tasks</strong> in both younger and older adults. The Corsi block format Pattern Memory uses has been a validated research instrument for over 50 years.</p>
+            </div>
+            <div class="study-links">
+              <a class="study-link" href="https://pubmed.ncbi.nlm.nih.gov/18814035/" target="_blank" rel="noopener">
+                <span class="study-link-icon">📄</span>
+                <div class="study-link-content">
+                  <div class="study-link-title">Exploring visual-spatial working memory: a critical review</div>
+                  <div class="study-link-meta">McAfoose & Baune (2009) — Neuropsychology Review · PubMed</div>
+                </div>
+              </a>
+              <a class="study-link" href="https://pubmed.ncbi.nlm.nih.gov/26398484/" target="_blank" rel="noopener">
+                <span class="study-link-icon">📄</span>
+                <div class="study-link-content">
+                  <div class="study-link-title">Visuospatial WM training facilitates sequence learning</div>
+                  <div class="study-link-meta">Chan et al. (2015) — Acta Psychologica · PubMed</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="game-card g3">
+          <div class="game-card-inner">
+            <div class="game-top">
+              <div class="game-icon">🃏</div>
+              <div class="game-meta">
+                <p class="game-number">Game 03</p>
+                <h2 class="game-title">Card Match</h2>
+              </div>
+            </div>
+            <p class="game-what">Classic memory matching — but with a spaced repetition layer underneath. Pairs you miss reappear at increasing intervals. This is a direct implementation of <strong>Ebbinghaus's forgetting curve</strong> — the most replicated finding in all of memory science.</p>
+            <div class="finding">
+              <p class="finding-label">Key research finding</p>
+              <p class="finding-text">Ebbinghaus (1885) proved memory decays exponentially — and that reviewing at strategically increasing intervals <strong>dramatically flattens that decay</strong>. Modern replications confirm this holds consistently 140 years later.</p>
+            </div>
+            <div class="study-links">
+              <a class="study-link" href="https://en.wikipedia.org/wiki/Forgetting_curve" target="_blank" rel="noopener">
+                <span class="study-link-icon">📖</span>
+                <div class="study-link-content">
+                  <div class="study-link-title">The Ebbinghaus Forgetting Curve — research overview</div>
+                  <div class="study-link-meta">Wikipedia — history and modern replications</div>
+                </div>
+              </a>
+              <a class="study-link" href="https://journals.sagepub.com/doi/full/10.1177/01455613231163726" target="_blank" rel="noopener">
+                <span class="study-link-icon">📄</span>
+                <div class="study-link-content">
+                  <div class="study-link-title">Spaced Effect Learning and Blunting the Forgetfulness Curve</div>
+                  <div class="study-link-meta">Wollstein & Jabbour (2022) — Journal of Surgical Education · SAGE</div>
+                </div>
+              </a>
+              <a class="study-link" href="https://thedecisionlab.com/reference-guide/psychology/forgetting-curve" target="_blank" rel="noopener">
+                <span class="study-link-icon">🔗</span>
+                <div class="study-link-content">
+                  <div class="study-link-title">Forgetting Curve — applied behavioral science overview</div>
+                  <div class="study-link-meta">The Decision Lab</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="game-card g4">
+          <div class="game-card-inner">
+            <div class="game-top">
+              <div class="game-icon">⚡</div>
+              <div class="game-meta">
+                <p class="game-number">Game 04</p>
+                <h2 class="game-title">Active Recall</h2>
+              </div>
+            </div>
+            <p class="game-what">You're shown a prompt and retrieve the answer from memory — not pick from options. That distinction matters enormously. <strong>The act of retrieval is itself what strengthens the memory.</strong> Re-reading does not do the same thing.</p>
+            <div class="finding">
+              <p class="finding-label">Key research finding</p>
+              <p class="finding-text">Roediger & Karpicke (2006) showed students who tested themselves retained <strong>substantially more after one week</strong> than those who re-studied — even though re-studiers felt more confident. Repeated retrieval outperformed repeated study by over 100%.</p>
+            </div>
+            <div class="study-links">
+              <a class="study-link" href="https://pubmed.ncbi.nlm.nih.gov/16507066/" target="_blank" rel="noopener">
+                <span class="study-link-icon">📄</span>
+                <div class="study-link-content">
+                  <div class="study-link-title">Test-Enhanced Learning: memory tests improve long-term retention</div>
+                  <div class="study-link-meta">Roediger & Karpicke (2006) — Psychological Science · PubMed</div>
+                </div>
+              </a>
+              <a class="study-link" href="https://learninglab.psych.purdue.edu/downloads/2007/2007_Karpicke_Roediger_JML.pdf" target="_blank" rel="noopener">
+                <span class="study-link-icon">📄</span>
+                <div class="study-link-content">
+                  <div class="study-link-title">Repeated retrieval during learning is the key to long-term retention</div>
+                  <div class="study-link-meta">Karpicke & Roediger (2007) — Journal of Memory and Language (PDF)</div>
+                </div>
+              </a>
+              <a class="study-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3983480/" target="_blank" rel="noopener">
+                <span class="study-link-icon">📄</span>
+                <div class="study-link-content">
+                  <div class="study-link-title">Retrieval practice enhances new learning — review</div>
+                  <div class="study-link-meta">Frontiers in Psychology — PMC Open Access, 2014</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="disclaimer">
+        <p><strong>A note on what this means:</strong> These studies show the training methods MindForge uses have measurable cognitive effects in research settings. They do not mean MindForge will improve your intelligence, cure any condition, or guarantee any specific outcome. The science supports the methods — results depend on consistent practice.</p>
+      </div>
+    </div>
+
+    <div class="container" style="margin-top:60px;">
+      <p class="section-label">All 11 sources</p>
+      <div class="ref-section">
+        <div class="ref-header">
+          <p class="ref-header-title">Full Reference List</p>
+          <p class="ref-header-sub">All publicly accessible · Tap any to open the original</p>
+        </div>
+        <a class="ref-row" href="https://pubmed.ncbi.nlm.nih.gov/18443283/" target="_blank" rel="noopener"><span class="ref-num">01</span><div class="ref-content"><div class="ref-title">Improving fluid intelligence with training on working memory</div><div class="ref-authors">Jaeggi et al. · PNAS 105(19) · 2008 · DOI: 10.1073/pnas.0801268105</div></div><span class="ref-arrow">↗</span></a>
+        <a class="ref-row" href="https://www.pnas.org/doi/10.1073/pnas.0801268105" target="_blank" rel="noopener"><span class="ref-num">02</span><div class="ref-content"><div class="ref-title">Jaeggi et al. (2008) — Full text at PNAS.org</div><div class="ref-authors">Open access · pnas.org</div></div><span class="ref-arrow">↗</span></a>
+        <a class="ref-row" href="https://scottbarrykaufman.com/wp-content/uploads/2014/08/au-et-al2014_nback-training-gf-meta-analysis.pdf" target="_blank" rel="noopener"><span class="ref-num">03</span><div class="ref-content"><div class="ref-title">Improving fluid intelligence with training on working memory: a meta-analysis</div><div class="ref-authors">Au et al. · Psychonomic Bulletin & Review 22(2) · 2015 · DOI: 10.3758/s13423-014-0699-x</div></div><span class="ref-arrow">↗</span></a>
+        <a class="ref-row" href="https://www.nature.com/articles/s41598-021-82663-w" target="_blank" rel="noopener"><span class="ref-num">04</span><div class="ref-content"><div class="ref-title">Dual n-back working memory training evinces superior transfer effects compared to the method of loci</div><div class="ref-authors">Scientific Reports (Nature) · 2021</div></div><span class="ref-arrow">↗</span></a>
+        <a class="ref-row" href="https://pubmed.ncbi.nlm.nih.gov/18814035/" target="_blank" rel="noopener"><span class="ref-num">05</span><div class="ref-content"><div class="ref-title">Exploring visual-spatial working memory: a critical review of concepts and models</div><div class="ref-authors">McAfoose & Baune · Neuropsychology Review 19(1) · 2009 · DOI: 10.1007/s11065-008-9063-0</div></div><span class="ref-arrow">↗</span></a>
+        <a class="ref-row" href="https://pubmed.ncbi.nlm.nih.gov/26398484/" target="_blank" rel="noopener"><span class="ref-num">06</span><div class="ref-content"><div class="ref-title">Visuospatial working memory training facilitates visually-aided explicit sequence learning</div><div class="ref-authors">Chan et al. · Acta Psychologica 161 · 2015 · DOI: 10.1016/j.actpsy.2015.09.008</div></div><span class="ref-arrow">↗</span></a>
+        <a class="ref-row" href="https://en.wikipedia.org/wiki/Forgetting_curve" target="_blank" rel="noopener"><span class="ref-num">07</span><div class="ref-content"><div class="ref-title">Forgetting curve — Ebbinghaus (1885) research overview</div><div class="ref-authors">Wikipedia · Background and modern replications</div></div><span class="ref-arrow">↗</span></a>
+        <a class="ref-row" href="https://journals.sagepub.com/doi/full/10.1177/01455613231163726" target="_blank" rel="noopener"><span class="ref-num">08</span><div class="ref-content"><div class="ref-title">Spaced Effect Learning and Blunting the Forgetfulness Curve</div><div class="ref-authors">Wollstein & Jabbour · Journal of Surgical Education · 2022 · DOI: 10.1177/01455613231163726</div></div><span class="ref-arrow">↗</span></a>
+        <a class="ref-row" href="https://pubmed.ncbi.nlm.nih.gov/16507066/" target="_blank" rel="noopener"><span class="ref-num">09</span><div class="ref-content"><div class="ref-title">Test-Enhanced Learning: Taking memory tests improves long-term retention</div><div class="ref-authors">Roediger & Karpicke · Psychological Science 17(3) · 2006 · DOI: 10.1111/j.1467-9280.2006.01693.x</div></div><span class="ref-arrow">↗</span></a>
+        <a class="ref-row" href="https://learninglab.psych.purdue.edu/downloads/2007/2007_Karpicke_Roediger_JML.pdf" target="_blank" rel="noopener"><span class="ref-num">10</span><div class="ref-content"><div class="ref-title">Repeated retrieval during learning is the key to long-term retention</div><div class="ref-authors">Karpicke & Roediger · Journal of Memory and Language 57(2) · 2007 · Full text PDF</div></div><span class="ref-arrow">↗</span></a>
+        <a class="ref-row" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3983480/" target="_blank" rel="noopener"><span class="ref-num">11</span><div class="ref-content"><div class="ref-title">Retrieval practice enhances new learning: the forward effect of testing</div><div class="ref-authors">Frontiers in Psychology · PMC Open Access · 2014</div></div><span class="ref-arrow">↗</span></a>
+      </div>
+    </div>
+
+    <div class="container">
+      <footer>
+        <div class="footer-logo">MINDFORGE</div>
+        <p class="footer-note">
+          This page exists so you can verify everything yourself
+          <span class="footer-dot"></span>
+          Every claim links to its source
+          <span class="footer-dot"></span>
+          No exceptions
+        </p>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll('.game-card');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 90);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    cards.forEach(card => observer.observe(card));
+  </script>
+</body>
+</html>
